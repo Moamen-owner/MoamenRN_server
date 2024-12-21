@@ -19,6 +19,12 @@ mongoose.connection.on("connected", () => {
 
 
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "server live"
+  });
+})
+
 app.get("/getBtata", (req, res) => {
   res.status(200).json({
     name: "btata",
@@ -118,6 +124,6 @@ app.post("/getAvg2", (req, res) => {
 
 })
 
-app.use("/",Routes);
+app.use("/", Routes);
 
 module.exports = app;
