@@ -21,7 +21,7 @@ mongoose.connection.on("connected", () => {
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "server live"
+    message: "server live" 
   });
 })
 
