@@ -69,7 +69,7 @@ const deleteUser = async (req, res) => {
 const logIn = async (req, res) => {
   const { phone, password } = req.body
   try {
-    const user = await USER_MODEL.findOne({ phone, password })
+    const user = await USER_MODEL.findOne({ Username, password })
     res.status(200).json({
       success: !!user,
       message: "logged in ",
