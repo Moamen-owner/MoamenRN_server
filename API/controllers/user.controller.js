@@ -69,7 +69,7 @@ const deleteUser = async (req, res) => {
 const logIn = async (req, res) => {
   const { phone, password } = req.body
   try {
-    const user = await USER_MODEL.findOne({ Username, password })
+    const user = await USER_MODEL.findOne({ phone, password })
     res.status(200).json({
       success: !!user,
       message: "logged in ",
@@ -90,7 +90,7 @@ const updateUser = async (req, res) => {
   const { phone, password } = req.body
   try {
     // const user = await USER_MODEL.findOneAndUpdate({ phone },{ password })
-    const user = await USER_MODEL.findOneAndUpdate({ phone }, { $set: { password } }, {new: true})
+    const user = await USER_MODEL.findOneAndUpdate({ phone }, { $set: { password } }, { new: true })
     res.status(200).json({
       success: true,
       message: "user updated ",
