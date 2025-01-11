@@ -41,6 +41,23 @@ const findProduct = async (req, res) => {
   }
 };
 
+const findAllProduct = async (req, res) => {
+  try {
+    const products = await PRODUCT_MODEL.find({});
+    res.status(200).json({
+      success: true,
+      message: "products found",
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.name,
+      message: error.message,
+    });
+  }
+};
+
 const deleteProduct = async (req, res) => {
   const { productName } = req.body;
   try {
@@ -50,7 +67,7 @@ const deleteProduct = async (req, res) => {
       message: "product deleted",
       data: user,
     });
-  } catch (error) { 
+  } catch (error) {
     res.status(500).json({
       success: false,
       error: error.name,
@@ -86,4 +103,5 @@ module.exports = {
   findProduct,
   deleteProduct,
   updateProduct,
+  findAllProduct
 };

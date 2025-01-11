@@ -64,7 +64,7 @@ const logIn = async (req, res) => {
   const { phone, password } = req.body;
   try {
     const user = await USER_MODEL.findOne({ phone, password });
-
+  
     if (!user) {
       return res.status(403).json({ auth: false });
     }
