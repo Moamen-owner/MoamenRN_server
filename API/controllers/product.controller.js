@@ -1,12 +1,13 @@
 const PRODUCT_MODEL = require("../models/product.model");
 
 const createProduct = async (req, res) => {
-  const { productName, Image, price } = req.body;
+  const { productName, Image, price , category} = req.body;
   try {
     const user = await PRODUCT_MODEL.create({
       productName: productName,
       Image: Image,
       price: price,
+      category: category,
     });
 
     res.status(200).json({
