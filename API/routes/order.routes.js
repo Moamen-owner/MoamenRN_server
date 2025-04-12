@@ -5,6 +5,7 @@ const {
   deleteOrder,
   updateOrder,
   findAllOrders,
+  confirmOrder,
 } = require("../controllers/order.controller");
 
 const orderRoute = express.Router();
@@ -23,5 +24,8 @@ orderRoute.put("/updateOrder", updateOrder);
 
 // Route to get all orders
 orderRoute.get("/findAllOrders", findAllOrders);
+
+// Route to confirm an order
+orderRoute.post("/confirmOrder", confirmOrder);
 
 module.exports = orderRoute;

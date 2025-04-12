@@ -1,36 +1,90 @@
 const ORDER_MODEL = require("../models/order.model");
 
 // Create a new order
-const createOrder = async (req, res) => {
-  const { productName, Image, price, category, orderID } = req.body;
+// const createOrder = async (req, res) => {
+//   const { producNtame, Image, price, category, orderID } = req.body;
 
-  // Basic validation
-  if (!productName || !price || !category || !orderID) {
+//   // Basic validation
+//   if (!productName || !price || !category || !orderID) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Missing required fields (productName, price, category, orderID)",
+//     });
+//   }
+
+//   try {
+//     // Generate order number
+//     const lastOrder = await ORDER_MODEL.findOne().sort({ orderNumber: -1 });
+//     const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1000;
+
+//     const newOrder = await ORDER_MODEL.create({
+//       productName,
+//       Image,
+//       price,
+//       category,
+//       orderID,
+//       orderNumber: newOrderNumber,
+//     });
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Order created successfully",
+//       data: newOrder,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       error: error.name,
+//       message: error.message,
+//     });
+//   }
+// };
+
+const createOrder = async (req, res) => {
+  const orders = req.body;
+
+  if (!Array.isArray(orders) || orders.length === 0) {
     return res.status(400).json({
       success: false,
-      message: "Missing required fields (productName, price, category, orderID)",
+      message: "Request body should be a non-empty array of orders",
     });
   }
 
   try {
-    // Generate order number
+    // Get the latest order number
     const lastOrder = await ORDER_MODEL.findOne().sort({ orderNumber: -1 });
-    const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1000;
+    let orderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1000;
 
-    const newOrder = await ORDER_MODEL.create({
-      productName,
-      Image,
-      price,
-      category,
-      orderID,
-      orderNumber: newOrderNumber,
-    });
+    const newOrders = [];
+
+    for (const order of orders) {
+      const { productName, Image, price, category, orderID } = order;
+
+      if (!productName || !price || !category || !orderID) {
+        return res.status(400).json({
+          success: false,
+          message: "Each order must include productName, price, category, and orderID",
+        });
+      }
+
+      const createdOrder = await ORDER_MODEL.create({
+        productName,
+        Image,
+        price,
+        category,
+        orderID,
+        orderNumber: orderNumber++,
+      });
+
+      newOrders.push(createdOrder);
+    }
 
     res.status(201).json({
       success: true,
-      message: "Order created successfully",
-      data: newOrder,
+      message: "Orders created successfully",
+      data: newOrders,
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -39,6 +93,7 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
 
 // Find a specific order by orderNumber
 const findOrder = async (req, res) => {
@@ -139,10 +194,50 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// Confirm an order
+const confirmOrder = async (req, res) => {
+  const { orderNumber } = req.body;
+  
+  if (!orderNumber) {
+    return res.status(400).json({
+      success: false,
+      message: "Order number is required"
+    });
+  }
+
+  try {
+    const order = await ORDER_MODEL.findOneAndUpdate(
+      { orderNumber },
+      { status: 'confirmed' },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Order confirmed successfully",
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.name,
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   findOrder,
   findAllOrders,
   deleteOrder,
   updateOrder,
+  confirmOrder
 };

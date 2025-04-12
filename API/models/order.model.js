@@ -25,7 +25,12 @@ const order_schema = new Schema({
     type: String,
     required: true,
   },
-}, {timestamps});
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending'
+  }
+}, { timestamps: true });
 
 const ORDER_MODEL = model("user_order", order_schema);
 module.exports = ORDER_MODEL;
