@@ -6,7 +6,7 @@ const order_schema = new Schema({
     split: " ",
     required: true,
   },
-  Image: {
+  image: {
     type: String,
   },
   price: {
