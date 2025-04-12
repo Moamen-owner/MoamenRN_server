@@ -51,15 +51,21 @@ const createOrder = async (req, res) => {
   }
 
   try {
-    // Get the latest order number
     const lastOrder = await ORDER_MODEL.findOne().sort({ orderNumber: -1 });
     let orderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1000;
 
-    const newOrders = [];
+    const createdOrders = [];
 
     for (const order of orders) {
-      const { productName, Image, price, category, orderID } = order;
+      const {
+        productName,
+        image,
+        price,
+        category,
+        orderID,
+      } = order;
 
+      // Validate required fields
       if (!productName || !price || !category || !orderID) {
         return res.status(400).json({
           success: false,
@@ -69,30 +75,30 @@ const createOrder = async (req, res) => {
 
       const createdOrder = await ORDER_MODEL.create({
         productName,
-        Image,
-        price,
+        image,
+        price: Number(price),
         category,
         orderID,
         orderNumber: orderNumber++,
       });
 
-      newOrders.push(createdOrder);
+      createdOrders.push(createdOrder);
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Orders created successfully",
-      data: newOrders,
+      data: createdOrders,
     });
-
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error.name,
       message: error.message,
     });
   }
 };
+
 
 
 // Find a specific order by orderNumber
