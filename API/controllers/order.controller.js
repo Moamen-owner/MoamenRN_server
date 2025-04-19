@@ -63,7 +63,9 @@ const createOrder = async (req, res) => {
         price,
         category,
         orderID,
+        quantity,
       } = order;
+
 
       // Validate required fields
       // if (!productName || !price || !category || !orderID) {
@@ -79,6 +81,7 @@ const createOrder = async (req, res) => {
         price: Number(price),
         category,
         orderID,
+        quantity,
         orderNumber: orderNumber++,
       });
 
