@@ -25,6 +25,10 @@ const order_schema = new Schema({
     type: String,
     required: true,
   },
+  quantity: {
+    type: Number,
+    required: true,
+  },
   status: {
     type: String,
     enum: ['pending', 'confirmed', 'cancelled'],
