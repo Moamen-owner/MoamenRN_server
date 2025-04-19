@@ -66,12 +66,12 @@ const createOrder = async (req, res) => {
       } = order;
 
       // Validate required fields
-      if (!productName || !price || !category || !orderID) {
-        return res.status(400).json({
-          success: false,
-          message: "Each order must include productName, price, category, and orderID",
-        });
-      }
+      // if (!productName || !price || !category || !orderID) {
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: "Each order must include productName, price, category, and orderID",
+      //   });
+      // }
 
       const createdOrder = await ORDER_MODEL.create({
         productName,

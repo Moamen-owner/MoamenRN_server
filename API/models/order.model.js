@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const order_schema = new Schema({
-  productName: {
+  name: {
     type: String,
     split: " ",
     required: true,
