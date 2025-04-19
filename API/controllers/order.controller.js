@@ -58,7 +58,7 @@ const createOrder = async (req, res) => {
 
     for (const order of orders) {
       const {
-        productName,
+        name,
         image,
         price,
         category,
@@ -76,7 +76,7 @@ const createOrder = async (req, res) => {
       // }
 
       const createdOrder = await ORDER_MODEL.create({
-        name:productName,
+        name,
         image,
         price: Number(price),
         category,
