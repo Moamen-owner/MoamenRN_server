@@ -41,7 +41,7 @@ const ORDER_MODEL = require("../models/order.model");
 // };
 
 const createOrder = async (req, res) => {
-  const orders = req.body;
+  const {orders} = req.body;
 
   if (!Array.isArray(orders) || orders.length === 0) {
     return res.status(400).json({
