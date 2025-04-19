@@ -76,13 +76,13 @@ const createOrder = async (req, res) => {
       // }
 
       const createdOrder = await ORDER_MODEL.create({
-        productName,
+        name:productName,
         image,
         price: Number(price),
         category,
         orderID,
         quantity,
-        orderNumber: orderNumber++,
+        orderNumber: orderNumber+1,
       });
 
       createdOrders.push(createdOrder);
