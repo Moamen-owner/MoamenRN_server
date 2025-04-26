@@ -3,7 +3,6 @@ const { Schema, model } = require("mongoose");
 const order_schema = new Schema({
   name: {
     type: String,
-    split: " ",
     required: true,
   },
   image: {
@@ -37,4 +36,5 @@ const order_schema = new Schema({
 }, { timestamps: true });
 
 const ORDER_MODEL = model("user_order", order_schema);
+
 module.exports = ORDER_MODEL;
